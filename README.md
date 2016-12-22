@@ -9,7 +9,7 @@ Comsat is a command line tool that enables you execute test suites inside in con
 ```
 
 ## Configuration 
-In a yaml file, you specify the image you want to test and a list of test runner commands to be executed. Then you execute ``comsat``` which runs a container and executes your test runners.
+In a yaml file, you specify the image you want to test and a list of test runner commands to be executed. Then you execute ``comsat`` which runs a container and executes your test runners.
 
 All output is sent to stdout.
 
@@ -30,7 +30,7 @@ Version 2 comsat.yml:
  - exit immediately if an exit status of 1?
 
 ```yaml
-	postgres:
+  postgres:
 		image: mongo
   web:
     image: myrailsapp:test
