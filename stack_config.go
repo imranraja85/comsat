@@ -24,14 +24,14 @@ type config struct {
 //}
 
 func initializeStackConfig() {
-	viper.SetConfigName("ctest")
+	viper.SetConfigName("comsat")
 	viper.SetConfigType("yaml")
 	viper.AddConfigPath(".")
 
 	err := viper.ReadInConfig()
 
 	if err != nil {
-		fmt.Printf("Please create a ctest.yaml file: %s \n", err)
+		fmt.Printf("Please create a consat.yaml file: %s \n", err)
 		os.Exit(1)
 	}
 

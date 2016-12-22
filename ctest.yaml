@@ -1,3 +1,4 @@
 image: hacker_registration:ctest
 command: 
  - rspec
+ - rubocop
