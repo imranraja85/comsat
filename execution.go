@@ -50,7 +50,9 @@ func executeTest(cmd string) {
 		panic(fmt.Errorf("failed to attach container: %v", err))
 	}
 
-	// block until container exits and get the exit code
+	// wait on the container
+	exitCode, _ := client.WaitContainer(container.ID)
+	fmt.Printf("EXIT CODE: %d", exitCode)
 
 	// remove the container
 	removeOpts := docker.RemoveContainerOptions{
