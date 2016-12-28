@@ -26,8 +26,7 @@ command:
 Version 2 comsat.yml:
 
  - How to make this OO and add tests????
- - Get the right exit status after each container run
- - exit immediately if an exit status of 1?
+ - option for parallel execution
 
 ```yaml
   postgres:

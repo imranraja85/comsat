@@ -52,7 +52,10 @@ func executeTest(cmd string) {
 
 	// wait on the container
 	exitCode, _ := client.WaitContainer(container.ID)
-	fmt.Printf("EXIT CODE: %d", exitCode)
+
+	if exitCode != 0 {
+		os.Exit(exitCode)
+	}
 
 	// remove the container
 	removeOpts := docker.RemoveContainerOptions{
