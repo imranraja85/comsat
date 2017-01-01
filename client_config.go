@@ -6,11 +6,13 @@ import (
 	docker "github.com/fsouza/go-dockerclient"
 )
 
-var client *docker.Client
+type dockerClient struct {
+	*docker.Client
+}
 
-func initializeDockerClient() {
+func (c *dockerClient) initialize() {
 	var err error
-	client, err = docker.NewClient("unix:///var/run/docker.sock")
+	c.Client, err = docker.NewClient("unix:///var/run/docker.sock")
 
 	if err != nil {
 		panic(fmt.Errorf("error connecting to daemon: %s", err))

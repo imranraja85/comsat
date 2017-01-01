@@ -1,7 +1,9 @@
 package main
 
+var client dockerClient
+
 func init() {
-	initializeDockerClient()
+	client.initialize()
 	initializeStackConfig()
 }
 
