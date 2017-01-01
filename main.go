@@ -2,11 +2,8 @@ package main
 
 var client dockerClient
 
-func init() {
+func main() {
 	client.initialize()
 	initializeStackConfig()
-}
-
-func main() {
 	executeTestSuite()
 }
