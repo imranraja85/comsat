@@ -2,13 +2,12 @@ package main
 
 import "testing"
 
-func TestConfigureClient(t *testing.T) {
-	client.initialize() // connects and checks for a docker client connection
+// this does a live test. replace with something that stubs a success/failure http call to the docker remote api
+func TestIsClientConnected(t *testing.T) {
+	client.initialize()
+	err := client.isConnected()
 
-	hello := "world"
-
-	if hello != "world" {
-		t.Errorf("Expected %s, got %s", "world", "worl")
+	if err != nil {
+		t.Fatal("Expected nil error, got error: %v", err)
 	}
-
 }
