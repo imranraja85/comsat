@@ -17,6 +17,20 @@ Once you add a comsat.yml config file, execute the following:
   comsat
 ```
 
+## Example:
+
+If your comsat.yml looks like this
+
+```yml
+image: hacker_registration:ctest
+command: 
+ - rubocop
+ - rspec
+ - brakeman
+```
+
+When you execute `comsat` it will create 3 containers using the specified image and execute each command at the same time.
+
 ## Configuration 
 In a yaml file, you specify the image you want to test and a list of commands to be executed. Then you execute ``comsat`` which concurrently executes each of the commands in it's own container.
 
@@ -32,8 +46,9 @@ command:
 ```
 
 ## Todos:
-Need a way to specify container dependencies (such as database dependency)
-Need a way to specify setup commands (such as creating or migrating a datbase)
+* Be able to specify a different DOCKER_HOST endpoint.
+* Need a way to specify container dependencies (such as database dependency)
+* Need a way to specify setup commands (such as creating or migrating a datbase)
 
 This will require a change to the comsat.yml file. Proposed update:
 
