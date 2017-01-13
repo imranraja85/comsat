@@ -1,15 +1,24 @@
 # Comsat
 
-Comsat is a command line tool that enables you execute test suites inside in containers on a Docker swarm. This allows you to greatly simplify your CI/CD process as the whole test environment can be configured by a Dockerfile rather than configuring slaves.
+Comsat is a command line tool that enables you to execute your CI/CD commands in a containerized, distributed environment. It can greatly improve your CI/CD pipeline by allowing you to execute test or build commands in parallel. Since everything is containerized, you no longer have to configure or setup any slave dependencies.
+
+## Dependencies
+ * Docker Engine or Docker Swarm
+
+## Benefits
+ * Slaveless: No slaves to configure. Execution is done by creating a container of your code base on a node (or nodes if you're running a Swarm)
+ * Concurrency: Execute multiple commands at the same time. For example, a Rails app can execute it's test suite, rubocop and brakeman at the same time rather than in a the typical synchronous fashion.
 
 ## Usage:
+
+Once you add a comsat.yml config file, execute the following:
 
 ```
   comsat
 ```
 
 ## Configuration 
-In a yaml file, you specify the image you want to test and a list of test runner commands to be executed. Then you execute ``comsat`` which runs a container and executes your test runners.
+In a yaml file, you specify the image you want to test and a list of commands to be executed. Then you execute ``comsat`` which concurrently executes each of the commands in it's own container.
 
 All output is sent to stdout.
 
@@ -22,11 +31,11 @@ command:
  - rubocop
 ```
 
-## TODOS:
-Version 2 comsat.yml:
+## Todos:
+Need a way to specify container dependencies (such as database dependency)
+Need a way to specify setup commands (such as creating or migrating a datbase)
 
- - How to make this OO and add tests????
- - option for parallel execution
+This will require a change to the comsat.yml file. Proposed update:
 
 ```yaml
   postgres:
@@ -36,7 +45,7 @@ Version 2 comsat.yml:
     setup: 
       - rake db:create
       - rake db:migrate
-    tests:
+    commands:
       - rspec
       - rubocop
 ```

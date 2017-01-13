@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"os"
+	"sync"
 
 	docker "github.com/fsouza/go-dockerclient"
 )
@@ -14,15 +15,37 @@ type Execution struct {
 // executeTestSuite iterates over each command in the config file and
 // executes it in a container
 func executeTestSuite() {
+	ch := make(chan int)
+	var wg sync.WaitGroup
+
 	for _, cmd := range ConfigFile.Command {
 		e := Execution{cmd}
-		e.executeTest()
+		wg.Add(1)
+		go e.executeTest(ch, &wg)
 	}
+
+	// decide what to do here when a container has an
+	// exit code of something other than 0. Do we want to:
+	//   1) Ignore it and continue exiting other commands
+	//   2) Stop and remove all containers and report something 'failed'
+	go func() {
+		for {
+			exitCode := <-ch
+			fmt.Println(exitCode)
+			//if exitCode != 0 {
+			//	os.Exit(exitCode)
+			//}
+		}
+	}()
+
+	wg.Wait()
 }
 
 // executeTest executes a command by creating a container, running the container,
 // and then redirect stdout to the process.
-func (e *Execution) executeTest() {
+func (e *Execution) executeTest(c chan int, wg *sync.WaitGroup) {
+	fmt.Println("Starting Execution of:", e.Cmd)
+
 	containerOpts := docker.CreateContainerOptions{
 		Config: &docker.Config{
 			Image:        ConfigFile.Image,
@@ -60,10 +83,7 @@ func (e *Execution) executeTest() {
 
 	// wait on the container
 	exitCode, _ := client.WaitContainer(container.ID)
-
-	if exitCode != 0 {
-		os.Exit(exitCode)
-	}
+	c <- exitCode
 
 	// remove the container
 	removeOpts := docker.RemoveContainerOptions{
@@ -72,4 +92,6 @@ func (e *Execution) executeTest() {
 		RemoveVolumes: true,
 	}
 	client.RemoveContainer(removeOpts)
+
+	wg.Done()
 }
