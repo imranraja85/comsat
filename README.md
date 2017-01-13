@@ -1,6 +1,6 @@
 # Comsat
 
-Comsat is a command line tool that enables you to execute your CI/CD commands in a containerized, distributed environment. It can greatly improve your CI/CD pipeline by allowing you to execute your test or build commands in parallel. Since everything is containerized, you no longer have to configure or setup any slave dependencies.
+Comsat is a command line tool that enables you parallely execute your CI/CD commands in a containerized, distributed environment. It can greatly improve your CI/CD pipeline by allowing you to execute your test or build commands in parallel. Since everything is containerized, you no longer have to configure or setup any slave dependencies.
 
 ## Dependencies
  * Docker Engine or Docker Swarm
