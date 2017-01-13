@@ -31,36 +31,4 @@ command:
 
 When you execute `comsat` it will create 3 containers using the specified image and execute each command in parallel.
 
-## Configuration 
-In a yaml file, you specify the image you want to test and a list of commands to be executed. Then you execute ``comsat`` which concurrently executes each of the commands in it's own container.
-
 All output is sent to stdout.
-
-Sample comsat.yaml
-
-```yaml
-image: your-image-name
-command:
- - rspec
- - rubocop
-```
-
-## Todos:
-* Be able to specify a different DOCKER_HOST endpoint.
-* Need a way to specify container dependencies (such as database dependency)
-* Need a way to specify setup commands (such as creating or migrating a datbase)
-
-This will require a change to the comsat.yml file. Proposed update:
-
-```yaml
-  postgres:
-		image: mongo
-  web:
-    image: myrailsapp:test
-    setup: 
-      - rake db:create
-      - rake db:migrate
-    commands:
-      - rspec
-      - rubocop
-```
