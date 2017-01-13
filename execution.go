@@ -7,18 +7,26 @@ import (
 	docker "github.com/fsouza/go-dockerclient"
 )
 
+type Execution struct {
+	Cmd string
+}
+
+// executeTestSuite iterates over each command in the config file and
+// executes it in a container
 func executeTestSuite() {
 	for _, cmd := range ConfigFile.Command {
-		executeTest(cmd)
+		e := Execution{cmd}
+		e.executeTest()
 	}
 }
 
-func executeTest(cmd string) {
+// executeTest executes a command by creating a container, running the container,
+// and then redirect stdout to the process.
+func (e *Execution) executeTest() {
 	containerOpts := docker.CreateContainerOptions{
-		// Name: "mytestcontainer" + cmd,
 		Config: &docker.Config{
 			Image:        ConfigFile.Image,
-			Cmd:          []string{cmd},
+			Cmd:          []string{e.Cmd},
 			AttachStdout: true,
 			AttachStderr: true,
 		},
