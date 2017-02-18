@@ -23,13 +23,14 @@ If your comsat.yml looks like this
 
 ```yml
 image: hacker_registration:ctest
+ExitOnFailure: true
 command: 
  - rubocop
  - rspec
  - brakeman
 ```
 
-When you execute `comsat` it will create 3 containers using the specified image and execute each command at the same time.
+When you execute `comsat` it will create 3 containers using the specified image and execute each command at the same time. Since `ExitOnFailure` is set to true, if any of the containers exit unsuccessfully, we terminate the whole execution.
 
 ## Configuration 
 In a yaml file, you specify the image you want to test and a list of commands to be executed. Then you execute ``comsat`` which concurrently executes each of the commands in it's own container.
@@ -39,8 +40,9 @@ All output is sent to stdout.
 Sample comsat.yaml
 
 ```yaml
-image: your-image-name
-command:
+Image: your-image-name
+ExitOnFailure: true
+Command:
  - rspec
  - rubocop
 ```
