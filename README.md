@@ -47,6 +47,7 @@ command:
 
 ## Todos:
 * Be able to specify a different DOCKER_HOST endpoint.
+* set a flag to break on ANY error
 * Need a way to specify container dependencies (such as database dependency)
 * Need a way to specify setup commands (such as creating or migrating a datbase)
 

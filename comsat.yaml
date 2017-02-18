@@ -1,4 +1,5 @@
-image: hacker_registration:ctest
-command: 
+Image: hacker_registration:ctest
+FailOnError: true
+Command: 
  - rubocop
  - rspec

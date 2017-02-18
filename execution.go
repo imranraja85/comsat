@@ -24,17 +24,13 @@ func executeTestSuite() {
 		go e.executeTest(ch, &wg)
 	}
 
-	// decide what to do here when a container has an
-	// exit code of something other than 0. Do we want to:
-	//   1) Ignore it and continue exiting other commands
-	//   2) Stop and remove all containers and report something 'failed'
 	go func() {
 		for {
 			exitCode := <-ch
-			fmt.Println(exitCode)
-			//if exitCode != 0 {
-			//	os.Exit(exitCode)
-			//}
+			if ConfigFile.FailOnError && exitCode != 0 {
+				// if this happens we should remove all containers.. maybe have a clean up method
+				os.Exit(exitCode)
+			}
 		}
 	}()
 
@@ -72,7 +68,7 @@ func (e *Execution) executeTest(c chan int, wg *sync.WaitGroup) {
 		Stderr:       true,
 		Stream:       true,
 		Logs:         true,
-		OutputStream: os.Stdout,
+		OutputStream: os.Stdout, // how do we hijack the output stream to go to a file
 	}
 
 	err = client.AttachToContainer(attachOpts)

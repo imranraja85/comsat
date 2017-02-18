@@ -10,18 +10,10 @@ import (
 var ConfigFile *config
 
 type config struct {
-	Image   string
-	Command []string
+	Image       string
+	Command     []string
+	FailOnError bool
 }
-
-//type config struct {
-//	Version  int
-//	Services map[string]Service
-//}
-//
-//type Service struct {
-//	Image string
-//}
 
 func initializeStackConfig() {
 	viper.SetConfigName("comsat")
